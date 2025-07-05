@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{fragments/head :: head('Crea Ingrediente')}">
+
+<body>
+    <section th:insert="~{fragments/navbar :: navbar}"></section>
+
+    <main class="container">
+        <div class="col-12 mt-3 p-2 bg-warning-subtle">
+            <h1> Modifica ingrediente per pizza</h1>
+
+
+            <div class="col-12 text-center">
+                <ul>
+                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}">
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12">
+                <form th:action="@{/ingredienti/create}" method="POST" th:object="${ingrediente}" id="ingrediente-creation-form">
+
+           
+
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input th:errorClass="is-invalid" th:field="*{nome}" type="text" class="form-control" id="nome">
+                    <div th:if="${#fields.hasErrors('nome')}" class="invalid-feedback">
+                        <ul>
+
+                            <li th:each="err : ${#fields.errors('nome')}" th:text="${err}"></li>
+
+                        </ul>
+
+                    </div>
+                        <button type="submit" class="btn btn-primary mt-2">Modifica</button>
+                </form>
+            </div>
+
+    </main>
+</body>
+
+<!-- Script fragment -->
+<section th:insert="~{fragments/script :: script}"></section>
+
+</html>

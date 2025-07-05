@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<!-- Head fragment -->
+
+<head th:replace="~{fragments/head :: head('Lista Offerte')}">
+
+<body>
+    <!-- Navbar fragment -->
+    <section th:insert="~{fragments/navbar :: navbar}"></section>
+
+    <!-- Main page -->
+<main class="container">
+       <a th:href="@{ingredienti/create}" class="btn btn-primary  mt-2 mb-2">Aggiungi un nuovo ingrediente</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+                    <td>[[*{id}]]</td>
+                    <td>[[*{nome}]]</td>
+                    <td>
+                        <a th:href="@{ingredienti/{id}/edit(id=*{id})}" class="btn btn-success mx-1">Edit</a>
+                        <!-- Modal button   -->
+                        <button type="button" class="btn btn-warning mx-1" data-bs-toggle="modal"
+                            th:data-bs-target="'#delete-modal-' + *{id}">
+                            Delete
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1" data-bs-backdrop="static"
+                            data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Conferma eliminazione
+                                            ingrediente:
+                                            [[*{nome}]]</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Vuoi eliminare l'ingrediente: [[*{nome}]] con id: [[*{id}]]?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Chiudi</button>
+
+                                        <form th:action="@{ingredienti/{id}/delete(id=*{id})}" method="POST">
+                                            <button type="submit" class="btn btn-danger">Conferma</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+    </main>
+
+    <!-- Script fragment -->
+    <section th:insert="~{fragments/script :: script}"></section>
+
+
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" l lang="en">
+<!-- Head fragment -->
+
+<head th:replace="~{fragments/head :: head('Show Pizza')}"></head>
+
+<body>
+
+    <!-- NavBar fragment -->
+    <section th:insert="~{fragments/navbar :: navbar}"></section>
+
+    <!-- Main page -->
+    <main class="container">
+        <div class="row justify-content-center">
+            <div th:object="${pizza}" class="card col-6 p-0 m-2">
+                <img th:src="*{urlFoto}" class="card-img-top h-50" alt="...">
+                <div class="card-body py-2 px-2">
+                    <h5 class="card-title">[[*{nome}]]</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">[[*{descrizione}]]</li>
+                        <li class="list-group-item"><span th:each="ingrediente : ${ingredienti}" >[[${ingrediente.nome}]], </span></li>
+                        <li class="list-group-item">[[*{prezzo}]]€</li>
+                    </ul>
+                </div>
+            </div>
+        </div>  
+        <h2>Lista offerte attive:</h2>  
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Id Pizza</th>
+                        <th>Titolo</th>
+                        <th>Data Inizio</th>
+                        <th>Data Fine</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="offerta : ${pizza.offerte}" th:object="${offerta}">
+                        <td>[[*{id}]]</td>
+                        <td>[[*{pizza.id}]]</td>
+                        <td>[[*{titolo}]]</td>
+                        <td>[[*{dataInizio}]]</td>
+                        <td>[[*{dataFine}]]</td>
+                        <td>
+                            <a th:href="@{|/offerte/*{id}/edit|}" class="btn btn-success mx-1">Edit</a>
+                            <!-- Modal button   -->
+                            <button type="button" class="btn btn-warning mx-1" data-bs-toggle="modal"
+                                th:data-bs-target="'#delete-modal-' + *{id}">
+                                Delete
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1"
+                                data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Conferma eliminazione
+                                                offerta:
+                                                [[*{titolo}]]</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Vuoi eliminare l'offerta: [[*{titolo}]] con id: [[*{id}]]?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Chiudi</button>
+
+                                            <form th:action="@{|/offerte/*{id}/delete|}" method="POST">
+                                                <button type="submit" class="btn btn-danger">Conferma</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+
+
+
+                    </tr>
+
+                </tbody>
+            </table>
+    </main>
+
+    <!-- Script fragment -->
+    <section th:insert="~{fragments/script :: script}"></section>
+</body>
+
+</html>

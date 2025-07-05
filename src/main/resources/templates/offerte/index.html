@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
+
+<!-- Head fragment -->
+
+<head th:replace="~{fragments/head :: head('Lista Offerte')}">
+
+<body>
+    <!-- Navbar fragment -->
+    <section th:insert="~{fragments/navbar :: navbar}"></section>
+
+    <!-- Main page -->
+    <main class="container mt-4">
+        <form th:action="@{/offerte}" class="d-flex mt-2 mb-2" role="search">
+            <input class="form-control me-2" type="search" name="keyword" placeholder="Cerca offerta per nome" aria-label="Cerca" />
+            <button class="btn btn-success" type="submit">Cerca</button>
+        </form>
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Id Pizza</th>
+                    <th>Titolo</th>
+                    <th>Data Inizio</th>
+                    <th>Data Fine</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="offerta : ${offerte}" th:object="${offerta}">
+                    <td>[[*{id}]]</td>
+                    <td>[[*{pizza.id}]]</td>
+                    <td>[[*{titolo}]]</td>
+                    <td>[[*{dataInizio}]]</td>
+                    <td>[[*{dataFine}]]</td>
+                    <td>
+                        <a th:href="@{offerte/{id}/edit(id=*{id})}" class="btn btn-success mx-1">Edit</a>
+                        <!-- Modal button   -->
+                        <button type="button" class="btn btn-warning mx-1" data-bs-toggle="modal"
+                            th:data-bs-target="'#delete-modal-' + *{id}">
+                            Delete
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1" data-bs-backdrop="static"
+                            data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Conferma eliminazione
+                                            offerta:
+                                            [[*{titolo}]]</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Vuoi eliminare l'offerta: [[*{titolo}]] con id: [[*{id}]]?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Chiudi</button>
+
+                                        <form th:action="@{offerte/{id}/delete(id=*{id})}" method="POST">
+                                            <button type="submit" class="btn btn-danger">Conferma</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+
+
+
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+    </main>
+
+    <!-- Script fragment -->
+    <section th:insert="~{fragments/script :: script}"></section>
+
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{fragments/head :: head('MOdifica Offerta')}">
+
+<body>
+    <section th:insert="~{fragments/navbar :: navbar}"></section>
+
+    <main class="container">
+        <div class="col-12 mt-3 p-2 bg-warning-subtle">
+            <h1> Modifica offerta: [[${offerta.titolo}]]</h1>
+
+
+            <div class="col-12 text-center">
+                <ul>
+                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}">
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12">
+                <form th:action="@{/offerte/{id}/edit(id=${offerta.id})}" method="POST" th:object="${offerta}" id="offerta-modification-form">
+
+                    <input type="hidden" th:field="*{pizza}" id="pizza-id">
+
+        
+
+                    <label for="titolo" class="form-label">Titolo:</label>
+                    <input th:errorClass="is-invalid" th:field="*{titolo}" type="text" class="form-control" id="titolo">
+                    <div th:if="${#fields.hasErrors('titolo')}" class="invalid-feedback">
+                        <ul>
+
+                            <li th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></li>
+
+                        </ul>
+
+                    </div>
+                    <label for="data-inizio" class="form-label">Data inizio:</label>
+                    <input type="date" class="form-control" id="data-inizio" th:field="*{dataInizio}"  th:errorClass="is-invalid" autocomplete>
+                    <div th:if="${#fields.hasErrors('dataInizio')}" class="invalid-feedback">
+                        <ul>
+
+                            <li th:each="err : ${#fields.errors('dataInizio')}" th:text="${err}"></li>
+
+                        </ul>
+
+                    </div>
+
+                    <label for="data-fine" class="form-label">Data fine:</label>
+                    <input type="date" class="form-control" id="data-fine" th:field="*{dataFine}"  th:errorClass="is-invalid">
+                    <div th:if="${#fields.hasErrors('dataFine')}" class="invalid-feedback">
+                        <ul>
+
+                            <li th:each="err : ${#fields.errors('dataFine')}" th:text="${err}"></li>
+
+                        </ul>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-2">Modifica</button>
+                </form>
+            </div>
+
+    </main>
+</body>
+
+<!-- Script fragment -->
+<section th:insert="~{fragments/script :: script}"></section>
+
+</html>
