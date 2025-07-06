@@ -10,6 +10,8 @@ import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.Ingr
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.OfferteRepository;
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,7 +42,7 @@ public class PizzeController {
     }
 
     @GetMapping
-    public String index(Model model, @RequestParam(required = false) String keyword) {
+    public String index( Authentication authentication, Model model, @RequestParam(required = false) String keyword) {
         List<Pizza> pizze;
         if (keyword != null && !keyword.isEmpty()) {
             pizze = pizzeRepository.findByNomeContainingIgnoreCase(keyword);
@@ -48,6 +50,7 @@ public class PizzeController {
             pizze = pizzeRepository.findAll();
         }
 
+        model.addAttribute("username", authentication.getName());
         model.addAttribute("pizze", pizze);
         return "pizze/index";
     }
@@ -55,10 +58,7 @@ public class PizzeController {
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
         Optional<Pizza> pizzaOptional = pizzeRepository.findById(id);
-        if (pizzaOptional.isEmpty()) {
-            model.addAttribute("errore", "Non ci sono pizze con id: " + id);
-            return "error/index";
-        }
+
         model.addAttribute("ingredienti", ingredientiRepository.findAll());
         model.addAttribute("pizza", pizzaOptional.get());
         return "pizze/show";

@@ -20,7 +20,7 @@
                 <button class="btn btn-success" type="submit">Cerca</button>
             </form>
 
-            <a th:href="@{pizze/create}" class="btn btn-primary  mt-2 mb-2">Aggiungi una nuova pizza</a>
+            <a th:href="@{pizze/create}" class="btn btn-primary  mt-2 mb-2" sec:authorize="hasAuthority('ADMIN')"> Aggiungi una nuova pizza </a>
 
         </section>
 
@@ -42,12 +42,12 @@
                     <td>[[*{descrizione}]]</td>
                     <td>[[*{prezzo}]]€</td>
                     <td class="justify-content-center">
-                        <a th:href="@{pizze/{id}/offerta(id=*{id})}" class="btn btn-outline-success mx-1">Crea offerta</a>
+                        <a th:href="@{pizze/{id}/offerta(id=*{id})}" class="btn btn-outline-success mx-1"  sec:authorize="hasAuthority('ADMIN')">Crea offerta</a>
                         <a th:href="@{pizze/{id}(id=*{id})}" class="btn btn-primary mx-1">Show</a>
-                        <a th:href="@{pizze/edit/{id}(id=*{id})}" class="btn btn-success mx-1">Edit</a>
+                        <a th:href="@{pizze/edit/{id}(id=*{id})}" class="btn btn-success mx-1" sec:authorize="hasAuthority('ADMIN')">Edit</a>
                        <!-- Modal button   -->
                         <button type="button" class="btn btn-warning mx-1" data-bs-toggle="modal"
-                            th:data-bs-target="'#delete-modal-' + *{id}">
+                            th:data-bs-target="'#delete-modal-' + *{id}" sec:authorize="hasAuthority('ADMIN')">
                             Delete
                         </button>
 

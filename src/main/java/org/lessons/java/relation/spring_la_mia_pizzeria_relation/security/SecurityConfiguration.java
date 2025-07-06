@@ -22,6 +22,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/pizze/**").hasAuthority("ADMIN")
                 .requestMatchers("/ingredienti", "/ingredienti/**").hasAuthority("ADMIN")
                 .requestMatchers("/offerte", "/offerte/**").hasAuthority("ADMIN")
+                .requestMatchers("/pizze", "/pizze/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/**").permitAll())
                 .formLogin(Customizer.withDefaults());
                 return http.build();

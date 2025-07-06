@@ -18,13 +18,15 @@
                     <h5 class="card-title">[[*{nome}]]</h5>
                     <ul class="list-group">
                         <li class="list-group-item">[[*{descrizione}]]</li>
-                        <li class="list-group-item"><span th:each="ingrediente : ${ingredienti}" >[[${ingrediente.nome}]], </span></li>
+                        <li class="list-group-item"><span
+                                th:each="ingrediente : ${ingredienti}">[[${ingrediente.nome}]], </span></li>
                         <li class="list-group-item">[[*{prezzo}]]€</li>
                     </ul>
                 </div>
             </div>
-        </div>  
-        <h2>Lista offerte attive:</h2>  
+        </div>
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <h2>Lista offerte attive:</h2>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -87,6 +89,7 @@
 
                 </tbody>
             </table>
+        </div>
     </main>
 
     <!-- Script fragment -->

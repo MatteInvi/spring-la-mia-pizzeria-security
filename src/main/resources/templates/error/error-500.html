@@ -5,10 +5,11 @@
 
 <body class="">
 
-    <section th:insert="~{fragments/navbar :: navbar}"></section>
+  
     <main class="container">
         <div class="text-center mt-3">
-            <h1>[[${errore}]]</h1>
+            <h1>Errore nel server</h1>
+            <a th:href="@{/}" class="btn btn-primary">Torna alla Home</a>
         </div>
 
     </main>
